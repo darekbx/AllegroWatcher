@@ -17,6 +17,6 @@ public class SoapMethods {
     public static List<Item> doGetItemsListRequest(int category, int priceMin, int priceMax, StartingTime startingTime) {
         SoapObject outputSoapObject = SoapEnvelopes.doGetItemsListRequest(category, priceMin, priceMax, startingTime);
         SoapObject object = new SoapService().callSoap(outputSoapObject);
-        return ItemsListParser.parse(object);
+        return new ItemsListParser().parse(object);
     }
 }

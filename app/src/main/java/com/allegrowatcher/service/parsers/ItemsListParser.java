@@ -14,7 +14,41 @@ import java.util.List;
 
 public class ItemsListParser {
 
-    public static List<Item> parse(SoapObject object) {
+    public enum PhotoSize {
+        SMALL("small"),
+        MEDIUM("medium"),
+        LARGE("large");
+
+        private String value;
+
+        PhotoSize(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public enum PriceType {
+        BIDDING("bidding"),
+        BUY_NOW("buyNow"),
+        WITH_DELIVERY("withDelivery");
+
+        private String value;
+
+        PriceType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
+    public List<Item> parse(SoapObject object) {
         List<Item> itemList = new ArrayList<>();
 
         Object itemsListObject = object.getProperty("itemsList");
@@ -26,19 +60,48 @@ public class ItemsListParser {
                 Object itemObject = itemsList.getProperty(i);
                 if (itemObject != null && itemObject instanceof SoapObject) {
                     SoapObject soapItem = (SoapObject) itemObject;
-
-                    SoapPrimitive titlePrimitive = (SoapPrimitive) soapItem.getProperty("itemTitle");
-                    String title = titlePrimitive.getValue().toString();
-                    Object timeToEnd = soapItem.getProperty("timeToEnd");
-
-                    Item item = new Item();
-                    item.title = title;
-
+                    Item item = new Item(
+                            getValue(soapItem, "itemId"),
+                            getValue(soapItem, "itemTitle"),
+                            getValue(soapItem, "timeToEnd"),
+                            getPhoto(soapItem, PhotoSize.MEDIUM),
+                            getPrice(soapItem, PriceType.BIDDING),
+                            getPrice(soapItem, PriceType.BUY_NOW),
+                            getPrice(soapItem, PriceType.WITH_DELIVERY)
+                    );
                     itemList.add(item);
                 }
             }
         }
 
         return itemList;
+    }
+
+    public String getValue(SoapObject soapItem, String propertyName) {
+        SoapPrimitive itemPrimitive = (SoapPrimitive) soapItem.getPrimitiveProperty(propertyName);
+        return itemPrimitive.getValue().toString();
+    }
+
+    public String getPhoto(SoapObject soapItem, PhotoSize size) {
+        SoapObject itemSoapObject = (SoapObject) soapItem.getProperty("photosInfo");
+        for (int i = 0, count = itemSoapObject.getPropertyCount(); i < count; i++) {
+            SoapObject subItemSoapObject = (SoapObject) itemSoapObject.getProperty(i);
+            if (subItemSoapObject.getProperty("photoSize").toString().equals(size.toString())
+                    && subItemSoapObject.getProperty("photoIsMain").toString().equals("true")) {
+                return subItemSoapObject.getProperty("photoUrl").toString();
+            }
+        }
+        return null;
+    }
+
+    public String getPrice(SoapObject soapItem, PriceType type) {
+        SoapObject itemSoapObject = (SoapObject) soapItem.getProperty("priceInfo");
+        for (int i = 0, count = itemSoapObject.getPropertyCount(); i < count; i++) {
+            SoapObject subItemSoapObject = (SoapObject) itemSoapObject.getProperty(i);
+            if (subItemSoapObject.getProperty("priceType").toString().equals(type.toString())) {
+                return subItemSoapObject.getProperty("priceValue").toString();
+            }
+        }
+        return null;
     }
 }
