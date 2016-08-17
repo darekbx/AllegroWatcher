@@ -12,7 +12,6 @@ public class Item {
     public String biddingPrice;
     public String withDeliveryPrice;
     public String buyNowPrice;
-    public boolean isNew;
 
     public Item(long id, String title) {
         this.id = id;

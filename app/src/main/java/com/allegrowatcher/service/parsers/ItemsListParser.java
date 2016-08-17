@@ -51,25 +51,26 @@ public class ItemsListParser {
     public List<Item> parse(SoapObject object) {
         List<Item> itemList = new ArrayList<>();
 
-        Object itemsListObject = object.getProperty("itemsList");
-        if (itemsListObject != null && itemsListObject instanceof SoapObject) {
-            SoapObject itemsList = (SoapObject) itemsListObject;
-            int itemsCount = itemsList.getPropertyCount();
-
-            for (int i = 0; i < itemsCount; i++) {
-                Object itemObject = itemsList.getProperty(i);
-                if (itemObject != null && itemObject instanceof SoapObject) {
-                    SoapObject soapItem = (SoapObject) itemObject;
-                    Item item = new Item(
-                            Long.parseLong(getValue(soapItem, "itemId")),
-                            getValue(soapItem, "itemTitle"),
-                            getValue(soapItem, "timeToEnd"),
-                            getPhoto(soapItem, PhotoSize.MEDIUM),
-                            getPrice(soapItem, PriceType.BIDDING),
-                            getPrice(soapItem, PriceType.BUY_NOW),
-                            getPrice(soapItem, PriceType.WITH_DELIVERY)
-                    );
-                    itemList.add(item);
+        if (object.hasProperty("itemsList")) {
+            Object itemsListObject = object.getProperty("itemsList");
+            if (itemsListObject != null && itemsListObject instanceof SoapObject) {
+                SoapObject itemsList = (SoapObject) itemsListObject;
+                int itemsCount = itemsList.getPropertyCount();
+                for (int i = 0; i < itemsCount; i++) {
+                    Object itemObject = itemsList.getProperty(i);
+                    if (itemObject != null && itemObject instanceof SoapObject) {
+                        SoapObject soapItem = (SoapObject) itemObject;
+                        Item item = new Item(
+                                Long.parseLong(getValue(soapItem, "itemId")),
+                                getValue(soapItem, "itemTitle"),
+                                getValue(soapItem, "timeToEnd"),
+                                getPhoto(soapItem, PhotoSize.MEDIUM),
+                                getPrice(soapItem, PriceType.BIDDING),
+                                getPrice(soapItem, PriceType.BUY_NOW),
+                                getPrice(soapItem, PriceType.WITH_DELIVERY)
+                        );
+                        itemList.add(item);
+                    }
                 }
             }
         }

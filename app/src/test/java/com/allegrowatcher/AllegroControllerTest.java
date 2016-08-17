@@ -2,6 +2,7 @@ package com.allegrowatcher;
 
 import com.allegrowatcher.controllers.AllegroController;
 import com.allegrowatcher.db.DataManager;
+import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 import com.allegrowatcher.model.Summary;
 
@@ -47,7 +48,7 @@ public class AllegroControllerTest {
         dataManager.addAllegroId(RuntimeEnvironment.application, 1004);
 
         new AllegroControllerMock()
-                .loadSummary(RuntimeEnvironment.application, 1, 10, 20)
+                .loadSummary(RuntimeEnvironment.application, new Filter("Test", 1, 10, 20))
                 .subscribe(summaryListener);
 
         ArgumentCaptor<Summary> argument = ArgumentCaptor.forClass(Summary.class);
@@ -55,16 +56,14 @@ public class AllegroControllerTest {
 
         assertEquals(argument.getValue().itemsCount, 6);
         assertEquals(argument.getValue().newItemsCount, 2);
-        assertEquals(argument.getValue().items.get(0).isNew, false);
-        assertEquals(argument.getValue().items.get(3).isNew, false);
-        assertEquals(argument.getValue().items.get(4).isNew, true);
-        assertEquals(argument.getValue().items.get(5).isNew, true);
+        assertEquals(argument.getValue().newIitems.get(0).id, 1005);
+        assertEquals(argument.getValue().newIitems.get(1).id, 1006);
     }
 
     public class AllegroControllerMock extends AllegroController {
 
         @Override
-        public List<Item> loadItems(int categoryId, int priceMin, int priceMax) {
+        public List<Item> loadItems(Filter filter) {
             List<Item> items = new ArrayList<>(6);
             items.add(new Item(1001, "Piasta"));
             items.add(new Item(1002, "Kaseta"));

@@ -21,9 +21,10 @@ public class SoapEnvelopesTest {
 
         assertEquals(object.getName(), "DoGetItemsListRequest");
         assertEquals(object.getNamespace(), SoapService.NAMESPACE);
-        assertEquals(object.getPropertyCount(), 4);
+        assertEquals(object.getPropertyCount(), 5);
         assertEquals(object.getProperty("webapiKey"), SoapService.WEB_API_KEY);
         assertEquals(object.getProperty("countryId"), SoapService.COUNTRY_CODE);
         assertEquals(object.getProperty("resultScope"), SoapService.RESULT_SCOPE);
+        assertEquals(object.getProperty("resultSize"), SoapService.RESULT_SIZE);
     }
 }

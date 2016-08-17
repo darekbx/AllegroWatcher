@@ -12,25 +12,44 @@ import org.ksoap2.serialization.SoapObject;
 public class SoapEnvelopes {
 
     public static SoapObject doGetItemsListRequest(int category, int priceMin, int priceMax, StartingTime startingTime) {
-        SoapObject outputSoapObject = new SoapObject(SoapService.NAMESPACE, "DoGetItemsListRequest");
-
-        final PropertyInfo rangeProperty = new PropertyInfo();
-        rangeProperty.setName("filterOptions");
-        rangeProperty.setNamespace(SoapService.NAMESPACE);
-
         SoapObject propertyObject = SoapFilters.createSoapObject("filterOptions")
                 .addProperty(SoapFilters.createFilterOption("category", "" + category))
                 .addProperty(SoapFilters.createFilterRangeOption("price", "" + priceMin, "" + priceMax));
         if (startingTime != null){
             propertyObject.addProperty(SoapFilters.createFilterOption("startingTime", startingTime.toString()));
         }
-        rangeProperty.setValue(propertyObject);
 
+        final PropertyInfo filterOptions = createFilteroptions();
+        filterOptions.setValue(propertyObject);
+
+        return createOutputObject(filterOptions);
+    }
+
+
+    public static SoapObject doGetItemsListRequest(int category, String keyword) {
+        SoapObject propertyObject = SoapFilters.createSoapObject("filterOptions")
+                .addProperty(SoapFilters.createFilterOption("category", "" + category))
+                .addProperty(SoapFilters.createFilterOption("search", keyword));
+
+        final PropertyInfo filterOptions = createFilteroptions();
+        filterOptions.setValue(propertyObject);
+        return createOutputObject(filterOptions);
+    }
+
+    public static SoapObject createOutputObject(PropertyInfo filterOptions) {
+        SoapObject outputSoapObject = new SoapObject(SoapService.NAMESPACE, "DoGetItemsListRequest");
         outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("webapiKey", SoapService.WEB_API_KEY));
         outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("countryId", SoapService.COUNTRY_CODE));
-        outputSoapObject.addPropertyIfValue(rangeProperty);
+        outputSoapObject.addPropertyIfValue(filterOptions);
+        outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("resultSize", SoapService.RESULT_SIZE));
         outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("resultScope", SoapService.RESULT_SCOPE));
-
         return outputSoapObject;
+    }
+
+    public static PropertyInfo createFilteroptions() {
+        final PropertyInfo filterOptions = new PropertyInfo();
+        filterOptions.setName("filterOptions");
+        filterOptions.setNamespace(SoapService.NAMESPACE);
+        return filterOptions;
     }
 }

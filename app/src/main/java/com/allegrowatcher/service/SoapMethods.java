@@ -19,4 +19,10 @@ public class SoapMethods {
         SoapObject object = new SoapService().callSoap(outputSoapObject);
         return new ItemsListParser().parse(object);
     }
+
+    public static List<Item> doGetItemsListRequest(int category, String keyword) {
+        SoapObject outputSoapObject = SoapEnvelopes.doGetItemsListRequest(category, keyword);
+        SoapObject object = new SoapService().callSoap(outputSoapObject);
+        return new ItemsListParser().parse(object);
+    }
 }

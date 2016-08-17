@@ -17,6 +17,7 @@ public class SoapService {
 
     public static final int COUNTRY_CODE = 1;
     public static final int RESULT_SCOPE = 2;
+    public static final int RESULT_SIZE = 1000;
     public static final String WEB_API_KEY ="2204e692";
     public static final String NAMESPACE = "https://webapi.allegro.pl/service.php";
     public static final String URL = "https://webapi.allegro.pl/service.php";

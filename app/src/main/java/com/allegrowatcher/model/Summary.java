@@ -9,7 +9,7 @@ import java.util.List;
 public class Summary {
     public int itemsCount;
     public int newItemsCount;
-    public List<Item> items;
+    public List<Item> newIitems;
 
     public Summary() {
     }
