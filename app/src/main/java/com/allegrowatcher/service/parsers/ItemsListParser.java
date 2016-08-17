@@ -61,7 +61,7 @@ public class ItemsListParser {
                 if (itemObject != null && itemObject instanceof SoapObject) {
                     SoapObject soapItem = (SoapObject) itemObject;
                     Item item = new Item(
-                            getValue(soapItem, "itemId"),
+                            Long.parseLong(getValue(soapItem, "itemId")),
                             getValue(soapItem, "itemTitle"),
                             getValue(soapItem, "timeToEnd"),
                             getPhoto(soapItem, PhotoSize.MEDIUM),

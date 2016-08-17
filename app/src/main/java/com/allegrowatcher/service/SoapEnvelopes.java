@@ -17,10 +17,15 @@ public class SoapEnvelopes {
         final PropertyInfo rangeProperty = new PropertyInfo();
         rangeProperty.setName("filterOptions");
         rangeProperty.setNamespace(SoapService.NAMESPACE);
-        rangeProperty.setValue(SoapFilters.createSoapObject("filterOptions")
+
+        SoapObject propertyObject = SoapFilters.createSoapObject("filterOptions")
                 .addProperty(SoapFilters.createFilterOption("category", "" + category))
-                .addProperty(SoapFilters.createFilterRangeOption("price", "" + priceMin, "" + priceMax))
-        .addProperty(SoapFilters.createFilterOption("startingTime", startingTime.toString())));
+                .addProperty(SoapFilters.createFilterRangeOption("price", "" + priceMin, "" + priceMax));
+        if (startingTime != null){
+            propertyObject.addProperty(SoapFilters.createFilterOption("startingTime", startingTime.toString()));
+        }
+        rangeProperty.setValue(propertyObject);
+
         outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("webapiKey", SoapService.WEB_API_KEY));
         outputSoapObject.addPropertyIfValue(SoapFilters.createPropertyInfo("countryId", SoapService.COUNTRY_CODE));
         outputSoapObject.addPropertyIfValue(rangeProperty);

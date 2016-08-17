@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.allegrowatcher.AllegroId;
 import com.allegrowatcher.DaoMaster;
 import com.allegrowatcher.DaoSession;
+import com.allegrowatcher.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,18 @@ import java.util.List;
 public class DataManager {
 
     private static final String DB = "allegro-id-db";
+
+    public void difference(Context context, List<Item> remoteItems) {
+        List<Long> localIds = getStoredIds(context);
+        for (Long localId : localIds) {
+            for (Item remoteItem : remoteItems) {
+                if (remoteItem.id == localId) {
+                    remoteItems.remove(remoteItem);
+                    break;
+                }
+            }
+        }
+    }
 
     public List<Long> getStoredIds(Context context) {
         DaoSession session = newDaoSession(context);

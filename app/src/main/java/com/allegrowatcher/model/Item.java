@@ -5,15 +5,21 @@ package com.allegrowatcher.model;
  */
 
 public class Item {
-    public String id;
+    public long id;
     public String title;
     public String timeToEnd;
     public String photo;
     public String biddingPrice;
     public String withDeliveryPrice;
     public String buyNowPrice;
+    public boolean isNew;
 
-    public Item(String id, String title, String timeToEnd, String photo, String biddingPrice,
+    public Item(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    public Item(long id, String title, String timeToEnd, String photo, String biddingPrice,
                 String withDeliveryPrice, String buyNowPrice) {
         this.id = id;
         this.title = title;
