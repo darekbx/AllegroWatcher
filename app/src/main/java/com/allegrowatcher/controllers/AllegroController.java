@@ -1,7 +1,6 @@
 package com.allegrowatcher.controllers;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.allegrowatcher.db.DataManager;
 import com.allegrowatcher.model.Filter;
@@ -58,10 +57,10 @@ public class AllegroController {
     }
 
     public List<Item> loadItems(Filter filter) {
-        if (TextUtils.isEmpty(filter.keyword)) {
-            return SoapMethods.doGetItemsListRequest(filter.categoryId, filter.priceMin, filter.priceMax, null);
-        } else if (filter.categoryId > 0) {
-            return SoapMethods.doGetItemsListRequest(filter.categoryId, filter.keyword);
+        if (filter.hasCategory() && !filter.hasKeyword()) {
+            return SoapMethods.doGetItemsListRequest(filter.category.id, filter.priceMin, filter.priceMax, null);
+        } else if (filter.hasCategory()) {
+            return SoapMethods.doGetItemsListRequest(filter.category.id, filter.keyword);
         } else {
             return SoapMethods.doGetItemsListRequest(filter.keyword);
         }

@@ -2,6 +2,7 @@ package com.allegrowatcher;
 
 import com.allegrowatcher.controllers.AllegroController;
 import com.allegrowatcher.db.DataManager;
+import com.allegrowatcher.model.Category;
 import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 import com.allegrowatcher.model.Summary;
@@ -48,7 +49,7 @@ public class AllegroControllerTest {
         dataManager.addAllegroId(RuntimeEnvironment.application, 1004);
 
         new AllegroControllerMock()
-                .loadSummary(RuntimeEnvironment.application, new Filter("Test", 1, 10, 20))
+                .loadSummary(RuntimeEnvironment.application, new Filter(new Category(1, "Test"), 10, 20))
                 .subscribe(summaryListener);
 
         ArgumentCaptor<Summary> argument = ArgumentCaptor.forClass(Summary.class);
