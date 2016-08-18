@@ -28,6 +28,7 @@
             android:layout_gravity="right|center_vertical"
             android:textSize="16sp"
             app:filter="@{filter}"
+            android:textColor="#f50"
             android:text="@string/loading"
             />
 

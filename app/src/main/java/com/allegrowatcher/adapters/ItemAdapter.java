@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.allegrowatcher.R;
 import com.allegrowatcher.databinding.AdapterItemBinding;
 import com.allegrowatcher.model.Item;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -42,6 +43,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     @BindingAdapter("bind:imageUrl")
     public static void imageUrl(final ImageView view, String url) {
-
+        Glide.with(view.getContext()).load(url).into(view);
     }
 }

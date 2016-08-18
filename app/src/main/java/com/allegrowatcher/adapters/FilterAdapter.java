@@ -1,6 +1,7 @@
 package com.allegrowatcher.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -12,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.allegrowatcher.ItemsActivity;
 import com.allegrowatcher.R;
 import com.allegrowatcher.controllers.AllegroController;
 import com.allegrowatcher.databinding.AdapterFilterItemBinding;
@@ -21,6 +22,8 @@ import com.allegrowatcher.db.DataManager;
 import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 import com.allegrowatcher.model.Summary;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -66,7 +69,7 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
                     @Override
                     public void call(Summary summary) {
                         invalidateText(view, summary);
-                        ((FrameLayout) view.getParent()).setTag(summary.newIitems);
+                        ((FrameLayout) view.getParent()).setTag(summary);
                     }
                 });
     }
@@ -79,13 +82,17 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
 
     public void onItemClick(View view) {
         if (view.getTag() != null) {
-            List<Item> items = (List<Item>) view.getTag();
-            for (Item item : items) {
+            Summary summary = (Summary) view.getTag();
+            for (Item item : summary.newIitems) {
                 dataManager.addAllegroId(view.getContext(), item.id);
             }
-
-            // TODO: show list with new items
-            Toast.makeText(view.getContext(), "Marked " + items.size() + " items", Toast.LENGTH_SHORT).show();
+            openItemList(summary);
         }
+    }
+
+    public void openItemList(Summary summary) {
+        Intent intent = new Intent(getContext(), ItemsActivity.class);
+        intent.putExtra(ItemsActivity.ITEMS_KEY, Parcels.wrap(summary));
+        getContext().startActivity(intent);
     }
 }

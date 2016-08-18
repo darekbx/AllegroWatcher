@@ -1,6 +1,6 @@
 package com.allegrowatcher;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -10,7 +10,7 @@ import com.allegrowatcher.model.Filter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private List<Filter> filters = new ArrayList<Filter>() {
         { add(new Filter("Widelce", 16693, 0, 260)); }
@@ -42,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
         ((ListView)findViewById(R.id.list_view)).setAdapter(adapter);
 
         /*
-       TODO:
-       0. adapter_item.xml set photo box size in px (medium photo size?)
-       1. Glide for loading images
-       2. Parceler to store items
-       3. Activity with items list
+        TODO:
+         - wyswietlanie pelnych nazw kategori w summary title
+         - FilterFormatter implementation
          */
     }
 }

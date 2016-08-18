@@ -1,9 +1,11 @@
 package com.allegrowatcher.model;
 
+import org.parceler.Parcel;
+
 /**
  * Created by daba on 2016-08-10.
  */
-
+@Parcel
 public class Item {
     public long id;
     public String title;
@@ -12,6 +14,9 @@ public class Item {
     public String biddingPrice;
     public String withDeliveryPrice;
     public String buyNowPrice;
+
+    public Item() {
+    }
 
     public Item(long id, String title) {
         this.id = id;
