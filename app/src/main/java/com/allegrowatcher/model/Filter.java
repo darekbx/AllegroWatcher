@@ -23,4 +23,9 @@ public class Filter {
         this.keyword = keyword;
         this.categoryId = categoryId;
     }
+
+    public Filter(String keyword) {
+        this.name = keyword;
+        this.keyword = keyword;
+    }
 }

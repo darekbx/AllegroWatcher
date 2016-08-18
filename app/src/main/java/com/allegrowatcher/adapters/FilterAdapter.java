@@ -3,13 +3,14 @@ package com.allegrowatcher.adapters;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,13 +66,14 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
                     @Override
                     public void call(Summary summary) {
                         invalidateText(view, summary);
-                        ((LinearLayout) view.getParent()).setTag(summary.newIitems);
+                        ((FrameLayout) view.getParent()).setTag(summary.newIitems);
                     }
                 });
     }
 
     public static void invalidateText(TextView view, Summary summary) {
         view.setTypeface(summary.newItemsCount > 0 ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        view.setTextColor(summary.newItemsCount > 0 ? Color.RED : Color.BLACK);
         view.setText(summary.newItemsCount + "/" + summary.itemsCount);
     }
 

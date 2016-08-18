@@ -60,8 +60,10 @@ public class AllegroController {
     public List<Item> loadItems(Filter filter) {
         if (TextUtils.isEmpty(filter.keyword)) {
             return SoapMethods.doGetItemsListRequest(filter.categoryId, filter.priceMin, filter.priceMax, null);
-        } else {
+        } else if (filter.categoryId > 0) {
             return SoapMethods.doGetItemsListRequest(filter.categoryId, filter.keyword);
+        } else {
+            return SoapMethods.doGetItemsListRequest(filter.keyword);
         }
     }
 }
