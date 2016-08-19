@@ -58,4 +58,15 @@ public class Filter {
         }
         return filter;
     }
+
+    @Override
+    public String toString() {
+        if (hasKeyword()) {
+            return keyword;
+        }
+        if (hasCategory()) {
+            return category.name;
+        }
+        return super.toString();
+    }
 }

@@ -84,4 +84,18 @@ public class FilterTest {
         assertEquals((int)filter.priceMin, 10);
         assertEquals((int)filter.priceMax, 20);
     }
+
+    @Test
+    public void to_string_1() {
+        Filter filter = new Filter("keyword", new Category(1, "test"));
+
+        assertEquals(filter.toString(), "keyword");
+    }
+
+    @Test
+    public void to_string_2() {
+        Filter filter = new Filter(new Category(1, "test"), 10, 20);
+
+        assertEquals(filter.toString(), "test");
+    }
 }

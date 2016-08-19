@@ -8,6 +8,7 @@ import com.allegrowatcher.AllegroId;
 import com.allegrowatcher.DaoMaster;
 import com.allegrowatcher.DaoSession;
 import com.allegrowatcher.FilterStorage;
+import com.allegrowatcher.model.Category;
 import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 
@@ -87,10 +88,40 @@ public class DataManager {
         return filters;
     }
 
+    public void loadInitialFilters() {
+        DaoSession session = newDaoSession();
+        for (Filter filter : filters) {
+            session.getFilterStorageDao().insert(filter.toFilterStorage());
+        }
+        session.getDatabase().close();
+    }
+
     private DaoSession newDaoSession() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DB, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster master = new DaoMaster(db);
         return master.newSession();
     }
+
+    private List<Filter> filters = new ArrayList<Filter>() {
+        { add(new Filter(new Category(16693, "Widelce sztywne"), 0, 260)); }
+        { add(new Filter(new Category(16447, "Ramy"), 0, 500)); }
+        { add(new Filter("Trialowy", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Trialowka", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Trialowa", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Trialu", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Trial", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Echo", new Category(16420, "Rowery"))); }
+        { add(new Filter("Echo", new Category(16416, "Części"))); }
+        { add(new Filter("Koxx", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Monty", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Trialtech", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Zoo", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("TryAll", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Because", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("DaBomb", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Da Bomb", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("Etch A Sketch")); }
+        { add(new Filter("Learning Resources")); }
+    };
 }

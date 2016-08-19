@@ -2,4 +2,16 @@
     <string name="app_name">AllegroWatcher</string>
 
     <string name="loading">Loading...</string>
+    <string name="dialog_new_filter">New Filter</string>
+    <string name="dialog_keyword">Keyword</string>
+    <string name="dialog_category_id">Category ID</string>
+    <string name="dialog_category_name">Category Name</string>
+    <string name="dialog_price_min">Minimum price</string>
+    <string name="dialog_price_max">Maximum price</string>
+    <string name="dialog_add">Add</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="title_activity_summary">SummaryActivity</string>
+    <string name="delete_title">Delete filter?</string>
+    <string name="delete_yes">Yes</string>
+    <string name="delete_no">No</string>
 </resources>
