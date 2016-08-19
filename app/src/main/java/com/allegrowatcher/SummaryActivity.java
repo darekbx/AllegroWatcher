@@ -61,8 +61,8 @@ public class SummaryActivity
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (view.getTag() != null) {
-            Summary summary = (Summary) view.getTag();
+        if (view.getTag(R.string.tag_summary) != null) {
+            Summary summary = (Summary) view.getTag(R.string.tag_summary);
             for (Item item : summary.newIitems) {
                 dataManager.addAllegroId(item.id);
             }
@@ -78,19 +78,28 @@ public class SummaryActivity
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_title)
-                .setNegativeButton(R.string.dialog_cancel, null)
-                .setPositiveButton(R.string.dialog_add, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO:
-                        // add filter id to summary
-                        // delete filter
-                        // refresh adapter
-                    }
-                })
-                .show();
+        if (view.getTag(R.string.tag_filter) != null) {
+            final Filter filter = (Filter) view.getTag(R.string.tag_filter);
+            if (filter.storageId != null && filter.storageId > 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.delete_title)
+                        .setNegativeButton(R.string.delete_no, null)
+                        .setPositiveButton(R.string.delete_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dataManager.deleteFilter(filter.storageId);
+                                refreshList();
+                            }
+                        })
+                        .show();
+            }
+        }
         return true;
+    }
+
+    private void refreshList() {
+        adapter.clear();
+        adapter.addAll(dataManager.getFilters());
+        adapter.notifyDataSetChanged();
     }
 }

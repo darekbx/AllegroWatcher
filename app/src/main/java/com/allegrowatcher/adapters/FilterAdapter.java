@@ -52,7 +52,7 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
     }
 
     @BindingAdapter("bind:filter")
-    public static void loadSummary(final TextView view, Filter filter) {
+    public static void loadSummary(final TextView view, final Filter filter) {
         AllegroController
                 .getInstance()
                 .loadSummary(view.getContext(), filter)
@@ -62,7 +62,8 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
                     @Override
                     public void call(Summary summary) {
                         invalidateText(view, summary);
-                        ((FrameLayout) view.getParent()).setTag(summary);
+                        ((FrameLayout) view.getParent()).setTag(R.string.tag_summary, summary);
+                        ((FrameLayout) view.getParent()).setTag(R.string.tag_filter, filter);
                     }
                 });
     }
