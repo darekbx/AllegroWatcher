@@ -44,7 +44,7 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
     public FilterAdapter(Context context, List<Filter> objects) {
         super(context, LAYOUT_RESOURCE_ID, objects);
         inflater = LayoutInflater.from(context);
-        dataManager = new DataManager();
+        dataManager = new DataManager(context);
     }
 
     @NonNull
@@ -84,7 +84,7 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
         if (view.getTag() != null) {
             Summary summary = (Summary) view.getTag();
             for (Item item : summary.newIitems) {
-                dataManager.addAllegroId(view.getContext(), item.id);
+                dataManager.addAllegroId(item.id);
             }
             openItemList(summary);
         }

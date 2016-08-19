@@ -37,16 +37,16 @@ public class AllegroControllerTest {
 
     @Before
     public void prepare() {
-        dataManager = new DataManager();
+        dataManager = new DataManager(RuntimeEnvironment.application);
         summaryListener = mock(Action1.class);
     }
 
     @Test
     public void load_summary() {
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1001);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1002);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1003);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1004);
+        dataManager.addAllegroId(1001);
+        dataManager.addAllegroId(1002);
+        dataManager.addAllegroId(1003);
+        dataManager.addAllegroId(1004);
 
         new AllegroControllerMock()
                 .loadSummary(RuntimeEnvironment.application, new Filter(new Category(1, "Test"), 10, 20))

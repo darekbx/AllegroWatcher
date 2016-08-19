@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.allegrowatcher.AllegroId;
 import com.allegrowatcher.DaoMaster;
 import com.allegrowatcher.DaoSession;
+import com.allegrowatcher.FilterStorage;
+import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 
 import java.util.ArrayList;
@@ -20,8 +22,14 @@ public class DataManager {
 
     private static final String DB = "allegro-id-db";
 
-    public void difference(Context context, List<Item> remoteItems) {
-        List<Long> localIds = getStoredIds(context);
+    private Context context;
+
+    public DataManager(Context context) {
+        this.context = context;
+    }
+
+    public void difference(List<Item> remoteItems) {
+        List<Long> localIds = getStoredIds();
         for (Long localId : localIds) {
             for (Item remoteItem : remoteItems) {
                 if (remoteItem.id == localId) {
@@ -32,8 +40,8 @@ public class DataManager {
         }
     }
 
-    public List<Long> getStoredIds(Context context) {
-        DaoSession session = newDaoSession(context);
+    public List<Long> getStoredIds() {
+        DaoSession session = newDaoSession();
         List<Long> result = new ArrayList<>();
         Cursor cursor = session.getDatabase().rawQuery("SELECT ALLEGRO_ID FROM ALLEGRO_ID", null);
         try {
@@ -49,13 +57,37 @@ public class DataManager {
         return result;
     }
 
-    public void addAllegroId(Context context, long allegroId) {
-        DaoSession session = newDaoSession(context);
+    public void addAllegroId(long allegroId) {
+        DaoSession session = newDaoSession();
         session.getAllegroIdDao().insert(new AllegroId(null, allegroId));
         session.getDatabase().close();
     }
 
-    private DaoSession newDaoSession(Context context) {
+    public void addFilter(Filter filter) {
+        DaoSession session = newDaoSession();
+        session.getFilterStorageDao().insert(filter.toFilterStorage());
+        session.getDatabase().close();
+    }
+
+    public void deleteFilter(long id) {
+        DaoSession session = newDaoSession();
+        session.getFilterStorageDao().deleteByKey(id);
+        session.getDatabase().close();
+    }
+
+    public List<Filter> getFilters() {
+        DaoSession session = newDaoSession();
+        List<FilterStorage> filterStorages = session.getFilterStorageDao().loadAll();
+        session.getDatabase().close();
+
+        List<Filter> filters = new ArrayList<>(filterStorages.size());
+        for (FilterStorage filterStorage : filterStorages) {
+            filters.add(Filter.fromFilterStorage(filterStorage));
+        }
+        return filters;
+    }
+
+    private DaoSession newDaoSession() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, DB, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster master = new DaoMaster(db);

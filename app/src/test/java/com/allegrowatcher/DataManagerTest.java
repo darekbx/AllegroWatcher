@@ -1,6 +1,8 @@
 package com.allegrowatcher;
 
 import com.allegrowatcher.db.DataManager;
+import com.allegrowatcher.model.Category;
+import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 
 import org.junit.Before;
@@ -26,16 +28,16 @@ public class DataManagerTest {
 
     @Before
     public void prepare() {
-        dataManager = new DataManager();
+        dataManager = new DataManager(RuntimeEnvironment.application);
     }
 
     @Test
     public void add_allegro_id() {
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1001);
-        dataManager.addAllegroId(RuntimeEnvironment.application, Long.MAX_VALUE);
-        dataManager.addAllegroId(RuntimeEnvironment.application, Long.MIN_VALUE);
+        dataManager.addAllegroId(1001);
+        dataManager.addAllegroId(Long.MAX_VALUE);
+        dataManager.addAllegroId(Long.MIN_VALUE);
 
-        List<Long> allegroIds = dataManager.getStoredIds(RuntimeEnvironment.application);
+        List<Long> allegroIds = dataManager.getStoredIds();
 
         assertEquals(allegroIds.size(), 3);
         assertEquals((long)allegroIds.get(0), 1001);
@@ -45,10 +47,10 @@ public class DataManagerTest {
 
     @Test
     public void difference() {
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1001);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1002);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1003);
-        dataManager.addAllegroId(RuntimeEnvironment.application, 1004);
+        dataManager.addAllegroId(1001);
+        dataManager.addAllegroId(1002);
+        dataManager.addAllegroId(1003);
+        dataManager.addAllegroId(1004);
 
         List<Item> items = new ArrayList<>(6);
         items.add(new Item(1001, "Piasta"));
@@ -58,10 +60,59 @@ public class DataManagerTest {
         items.add(new Item(1005, "Rama"));
         items.add(new Item(1006, "Korby"));
 
-        dataManager.difference(RuntimeEnvironment.application, items);
+        dataManager.difference(items);
 
         assertEquals(items.size(), 2);
         assertEquals(items.get(0).id, 1005);
         assertEquals(items.get(1).id, 1006);
+    }
+
+    @Test
+    public void add_filter_get_filters() {
+        Filter filter1 = new Filter("keyword");
+        Filter filter2 = new Filter("keyword", new Category(1, "test"));
+        Filter filter3 = new Filter(new Category(1, "test"), 10, 50);
+
+        dataManager.addFilter(filter1);
+        dataManager.addFilter(filter2);
+        dataManager.addFilter(filter3);
+
+        List<Filter> filters = dataManager.getFilters();
+
+        assertNotNull(filters);
+        assertEquals(filters.size(), 3);
+
+        assertEquals(filters.get(0).keyword, "keyword");
+        assertNull(filters.get(0).category);
+
+        assertEquals(filters.get(1).keyword, "keyword");
+        assertNotNull(filters.get(1).category);
+        assertEquals(filters.get(1).category.id, 1);
+        assertEquals(filters.get(1).category.name, "test");
+
+        assertNull(filters.get(2).keyword);
+        assertNotNull(filters.get(2).category);
+        assertEquals(filters.get(2).category.id, 1);
+        assertEquals(filters.get(2).category.name, "test");
+        assertEquals((int)filters.get(2).priceMin, 10);
+        assertEquals((int)filters.get(2).priceMax, 50);
+    }
+
+
+    @Test
+    public void delete_filter() {
+        Filter filter1 = new Filter("keyword");
+        Filter filter2 = new Filter("keyword", new Category(1, "test"));
+        Filter filter3 = new Filter(new Category(1, "test"), 10, 50);
+
+        dataManager.addFilter(filter1);
+        dataManager.addFilter(filter2);
+        dataManager.addFilter(filter3);
+
+        List<Filter> filters = dataManager.getFilters();
+        dataManager.deleteFilter(filters.get(1).storageId);
+
+        filters = dataManager.getFilters();
+        assertEquals(filters.size(), 2);
     }
 }

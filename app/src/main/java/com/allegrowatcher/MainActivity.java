@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
         { add(new Filter("DaBomb", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("Da Bomb", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("Etch A Sketch")); }
+        { add(new Filter("Learning Resources")); }
     };
 
     @Override

@@ -2,6 +2,8 @@ package com.allegrowatcher.model;
 
 import android.text.TextUtils;
 
+import com.allegrowatcher.FilterStorage;
+
 /**
  * Created by daba on 2016-08-17.
  */
@@ -9,8 +11,9 @@ import android.text.TextUtils;
 public class Filter {
     public String keyword;
     public Category category;
-    public int priceMin;
-    public int priceMax;
+    public Integer priceMin;
+    public Integer priceMax;
+    public Long storageId;
 
     public Filter(Category category, int priceMin, int priceMax) {
         this.category = category;
@@ -33,5 +36,26 @@ public class Filter {
 
     public boolean hasCategory() {
         return category != null;
+    }
+
+    public FilterStorage toFilterStorage() {
+        return new FilterStorage(
+                null,
+                keyword,
+                category != null ? category.id : null,
+                category != null ? category.name : null,
+                priceMin,
+                priceMax);
+    }
+
+    public static Filter fromFilterStorage(FilterStorage filterStorage) {
+        Filter filter = new Filter(filterStorage.getKeyword());
+        filter.storageId = filterStorage.getId();
+        filter.priceMin = filterStorage.getPrice_min();
+        filter.priceMax = filterStorage.getPrice_max();
+        if (filterStorage.getCategory_id() != null) {
+            filter.category = new Category(filterStorage.getCategory_id(), filterStorage.getCategory_name());
+        }
+        return filter;
     }
 }

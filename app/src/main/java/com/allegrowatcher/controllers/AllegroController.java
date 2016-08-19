@@ -40,7 +40,7 @@ public class AllegroController {
                     List<Item> items = loadItems(filter);
                     List<Item> allItems = new ArrayList<>(items);
 
-                    new DataManager().difference(context, items);
+                    new DataManager(context).difference(items);
 
                     Summary summary = new Summary();
                     summary.itemsCount = allItems.size();
