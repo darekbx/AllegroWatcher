@@ -38,6 +38,10 @@ public class Filter {
         return category != null;
     }
 
+    public boolean hasPrice() {
+        return priceMin != null && priceMax != null;
+    }
+
     public FilterStorage toFilterStorage() {
         return new FilterStorage(
                 null,

@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.allegrowatcher.adapters.FilterAdapter;
+import com.allegrowatcher.controllers.AllegroController;
 import com.allegrowatcher.db.DataManager;
 import com.allegrowatcher.dialogs.AddFilterDialog;
 import com.allegrowatcher.model.Filter;
@@ -18,6 +20,10 @@ import com.allegrowatcher.model.Item;
 import com.allegrowatcher.model.Summary;
 
 import org.parceler.Parcels;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class SummaryActivity
         extends AppCompatActivity
@@ -40,12 +46,29 @@ public class SummaryActivity
         });
 
         dataManager = new DataManager(this);
+        dataManager.loadInitialFilters();
+
         adapter = new FilterAdapter(this, dataManager.getFilters());
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         listView.setOnItemLongClickListener(this);
+
+        initializeCategories();
+    }
+
+    public void initializeCategories() {
+        new AllegroController()
+                .initializeCategories(this)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        Log.v(SummaryActivity.class.getName(), "Loaded categories: " + integer);
+                    }
+                });
     }
 
     public void showAddDialog() {

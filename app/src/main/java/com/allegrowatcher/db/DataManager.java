@@ -90,10 +90,41 @@ public class DataManager {
 
     public void loadInitialFilters() {
         DaoSession session = newDaoSession();
-        for (Filter filter : filters) {
-            session.getFilterStorageDao().insert(filter.toFilterStorage());
+        if (session.getFilterStorageDao().count() == 0) {
+            for (Filter filter : filters) {
+                session.getFilterStorageDao().insert(filter.toFilterStorage());
+            }
         }
         session.getDatabase().close();
+    }
+
+    public boolean hasCategoriesLoaded() {
+        DaoSession session = newDaoSession();
+        boolean result = session.getCategoryDao().count() > 0;
+        session.getDatabase().close();
+        return result;
+    }
+
+    public void saveCategories(List<Category> categories) {
+        List<com.allegrowatcher.Category> dbCategories = translateToDbCategory(categories);
+        DaoSession session = newDaoSession();
+        session.getCategoryDao().insertInTx(dbCategories);
+        session.getDatabase().close();
+    }
+
+    public List<com.allegrowatcher.Category> getCategories() {
+        DaoSession session = newDaoSession();
+        List<com.allegrowatcher.Category> categories = session.getCategoryDao().loadAll();
+        session.getDatabase().close();
+        return categories;
+    }
+
+    private List<com.allegrowatcher.Category> translateToDbCategory(List<Category> categories) {
+        List<com.allegrowatcher.Category> dbCategories = new ArrayList<>(categories.size());
+        for (Category category : categories) {
+            dbCategories.add(category.toDbCategory());
+        }
+        return dbCategories;
     }
 
     private DaoSession newDaoSession() {
@@ -119,6 +150,7 @@ public class DataManager {
         { add(new Filter("Zoo", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("TryAll", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("Because", new Category(16414, "Rowery i akcesoria"))); }
+        { add(new Filter("ZHI", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("DaBomb", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("Da Bomb", new Category(16414, "Rowery i akcesoria"))); }
         { add(new Filter("Etch A Sketch")); }

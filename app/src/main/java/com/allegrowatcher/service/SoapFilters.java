@@ -1,7 +1,5 @@
 package com.allegrowatcher.service;
 
-import com.allegrowatcher.service.enums.StartingTime;
-
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 

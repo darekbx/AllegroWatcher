@@ -3,6 +3,7 @@ package com.allegrowatcher.controllers;
 import android.content.Context;
 
 import com.allegrowatcher.db.DataManager;
+import com.allegrowatcher.model.Category;
 import com.allegrowatcher.model.Filter;
 import com.allegrowatcher.model.Item;
 import com.allegrowatcher.model.Summary;
@@ -56,13 +57,39 @@ public class AllegroController {
         }
     }
 
+    public Observable<Integer> initializeCategories(final Context context) {
+        return Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                DataManager dataManager = new DataManager(context);
+                if (!dataManager.hasCategoriesLoaded()) {
+                    List<Category> categories = loadCategories();
+                    dataManager.saveCategories(categories);
+                    subscriber.onNext(categories.size());
+                } else {
+                    subscriber.onNext(0);
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    public Observable<List<com.allegrowatcher.Category>> loadCategoriesAsync(final Context context) {
+        return Observable.create(new Observable.OnSubscribe<List<com.allegrowatcher.Category>>() {
+            @Override
+            public void call(Subscriber<? super List<com.allegrowatcher.Category>> subscriber) {
+                DataManager dataManager = new DataManager(context);
+                subscriber.onNext(dataManager.getCategories());
+                subscriber.onCompleted();
+            }
+        });
+    }
+
     public List<Item> loadItems(Filter filter) {
-        if (filter.hasCategory() && !filter.hasKeyword()) {
-            return SoapMethods.doGetItemsListRequest(filter.category.id, filter.priceMin, filter.priceMax, null);
-        } else if (filter.hasCategory()) {
-            return SoapMethods.doGetItemsListRequest(filter.category.id, filter.keyword);
-        } else {
-            return SoapMethods.doGetItemsListRequest(filter.keyword);
-        }
+        return SoapMethods.doGetItemsListRequest(filter);
+    }
+
+    public List<Category> loadCategories() {
+        return SoapMethods.doGetCatsDataRequest();
     }
 }

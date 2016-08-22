@@ -21,19 +21,11 @@
         android:hint="@string/dialog_keyword"
         android:inputType="textCapSentences"
         />
-    <EditText
-        android:id="@+id/dialog_category_id"
+    <AutoCompleteTextView
+        android:id="@+id/dialog_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dialog_category_id"
-        android:inputType="numberSigned"
-        />
-    <EditText
-        android:id="@+id/dialog_category_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/dialog_category_name"
-        android:inputType="textCapSentences"
+        android:hint="@string/dialog_category"
         />
     <EditText
         android:id="@+id/dialog_price_min"

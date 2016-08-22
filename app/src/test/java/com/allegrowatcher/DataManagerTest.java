@@ -98,7 +98,6 @@ public class DataManagerTest {
         assertEquals((int)filters.get(2).priceMax, 50);
     }
 
-
     @Test
     public void delete_filter() {
         Filter filter1 = new Filter("keyword");
@@ -114,5 +113,53 @@ public class DataManagerTest {
 
         filters = dataManager.getFilters();
         assertEquals(filters.size(), 2);
+    }
+
+    @Test
+    public void load_initial_filters() {
+
+        assertEquals(dataManager.getFilters().size(), 0);
+
+        dataManager.loadInitialFilters();
+
+        assertEquals(dataManager.getFilters().size(), 19);
+
+        dataManager.loadInitialFilters();
+
+        assertEquals(dataManager.getFilters().size(), 19);
+    }
+
+    @Test
+    public void has_categories_loaded() {
+
+        assertFalse(dataManager.hasCategoriesLoaded());
+    }
+
+    @Test
+    public void save_categories() {
+        List<Category> categories = getMockCategories();
+
+        dataManager.saveCategories(categories);
+
+        assertTrue(dataManager.hasCategoriesLoaded());
+    }
+
+    @Test
+    public void get_categories() {
+        List<Category> categoriesIn = getMockCategories();
+        dataManager.saveCategories(categoriesIn);
+
+        List<com.allegrowatcher.Category> categoriesOut = dataManager.getCategories();
+
+        assertEquals(categoriesOut.size(), 4);
+    }
+
+    private List<Category> getMockCategories() {
+        List<Category> categories = new ArrayList<>(4);
+        categories.add(new Category(1, "One"));
+        categories.add(new Category(2, "Two"));
+        categories.add(new Category(3, "Three"));
+        categories.add(new Category(4, "Four"));
+        return categories;
     }
 }
