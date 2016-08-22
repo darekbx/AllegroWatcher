@@ -42,6 +42,6 @@ public class FilterFormatterTest {
 
         String text = FilterFormatter.formatFilter(filter);
 
-        assertEquals(text, "[Rowery], price from 50zł to 250zł");
+        assertEquals(text, "[Rowery] price from 50zł to 250zł");
     }
 }

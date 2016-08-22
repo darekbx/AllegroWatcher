@@ -17,15 +17,20 @@ public class FilterFormatter {
     public static SpannableStringBuilder formatFilterSpan(Filter filter) {
         String filterString = formatFilter(filter);
         SpannableStringBuilder builder = new SpannableStringBuilder(filterString);
+        int start = 0;
         int end = 0;
 
         if (filter.hasCategory() && !filter.hasKeyword()) {
-            end = filterString.indexOf(',');
+            start = filterString.indexOf(']') + 1;
+            end = filterString.length();
         } else if (filter.hasCategory()) {
+            start = 0;
             end = filterString.indexOf('[');
+        } else {
+            end = filterString.length();
         }
 
-        builder.setSpan(new ForegroundColorSpan(Color.BLACK), end, filterString.length(),
+        builder.setSpan(new ForegroundColorSpan(Color.BLACK), start, end,
                 Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
         return builder;
@@ -33,7 +38,7 @@ public class FilterFormatter {
 
     public static String formatFilter(Filter filter) {
         if (filter.hasCategory() && !filter.hasKeyword()) {
-            return formatCategory(filter.category) + ',' + formatPrice(filter);
+            return formatCategory(filter.category) + formatPrice(filter);
         } else if (filter.hasCategory()) {
             return filter.keyword + " " + formatCategory(filter.category);
         } else {

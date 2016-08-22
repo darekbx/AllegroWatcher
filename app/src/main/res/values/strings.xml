@@ -16,4 +16,6 @@
 
     <string name="tag_summary">summary_tag</string>
     <string name="tag_filter">filter_tag</string>
+
+    <string name="allegro_path">http://allegro.pl/show_item.php?item=%s</string>
 </resources>
