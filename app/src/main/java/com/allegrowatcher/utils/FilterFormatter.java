@@ -1,5 +1,10 @@
 package com.allegrowatcher.utils;
 
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+
 import com.allegrowatcher.model.Category;
 import com.allegrowatcher.model.Filter;
 
@@ -8,6 +13,23 @@ import com.allegrowatcher.model.Filter;
  */
 
 public class FilterFormatter {
+
+    public static SpannableStringBuilder formatFilterSpan(Filter filter) {
+        String filterString = formatFilter(filter);
+        SpannableStringBuilder builder = new SpannableStringBuilder(filterString);
+        int end = 0;
+
+        if (filter.hasCategory() && !filter.hasKeyword()) {
+            end = filterString.indexOf(',');
+        } else if (filter.hasCategory()) {
+            end = filterString.indexOf('[');
+        }
+
+        builder.setSpan(new ForegroundColorSpan(Color.BLACK), end, filterString.length(),
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        return builder;
+    }
 
     public static String formatFilter(Filter filter) {
         if (filter.hasCategory() && !filter.hasKeyword()) {

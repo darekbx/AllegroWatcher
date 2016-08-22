@@ -122,11 +122,11 @@ public class DataManagerTest {
 
         dataManager.loadInitialFilters();
 
-        assertEquals(dataManager.getFilters().size(), 19);
+        assertEquals(dataManager.getFilters().size(), 20);
 
         dataManager.loadInitialFilters();
 
-        assertEquals(dataManager.getFilters().size(), 19);
+        assertEquals(dataManager.getFilters().size(), 20);
     }
 
     @Test

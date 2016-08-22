@@ -15,9 +15,7 @@ import com.allegrowatcher.adapters.FilterAdapter;
 import com.allegrowatcher.controllers.AllegroController;
 import com.allegrowatcher.db.DataManager;
 import com.allegrowatcher.dialogs.AddFilterDialog;
-import com.allegrowatcher.model.Filter;
-import com.allegrowatcher.model.Item;
-import com.allegrowatcher.model.Summary;
+import com.allegrowatcher.model.*;
 
 import org.parceler.Parcels;
 
