@@ -64,6 +64,7 @@ public class FilterAdapter extends ArrayAdapter<Filter> {
                         invalidateText(view, summary);
                         ((FrameLayout) view.getParent()).setTag(R.string.tag_summary, summary);
                         ((FrameLayout) view.getParent()).setTag(R.string.tag_filter, filter);
+                        ((FrameLayout) view.getParent()).setBackgroundColor(Color.WHITE);
                     }
                 });
     }
