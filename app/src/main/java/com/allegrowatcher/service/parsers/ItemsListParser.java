@@ -65,8 +65,8 @@ public class ItemsListParser extends BaseParser {
                                 getValue(soapItem, "timeToEnd"),
                                 getPhoto(soapItem, PhotoSize.MEDIUM),
                                 getPrice(soapItem, PriceType.BIDDING),
-                                getPrice(soapItem, PriceType.BUY_NOW),
-                                getPrice(soapItem, PriceType.WITH_DELIVERY)
+                                getPrice(soapItem, PriceType.WITH_DELIVERY),
+                                getPrice(soapItem, PriceType.BUY_NOW)
                         );
                         itemList.add(item);
                     }
