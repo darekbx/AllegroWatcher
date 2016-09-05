@@ -106,13 +106,16 @@ public class AddFilterDialog extends Dialog implements AdapterView.OnItemClickLi
     }
 
     public Filter createFilter() {
-        if (hasCategory() && !hasKeyword()) {
-            return new Filter(getCategory(), getPriceMin(), getPriceMax());
-        } else if (hasCategory()) {
-            return new Filter(getKeyword(), getCategory());
-        } else {
-            return new Filter(getKeyword());
+        Filter filter = new Filter();
+        if (hasKeyword()) {
+            filter.keyword = getKeyword();
         }
+        if (hasCategory()) {
+            filter.category = getCategory();
+        }
+        filter.priceMin = getPriceMin();
+        filter.priceMax = getPriceMax();
+        return filter;
     }
 
     private boolean hasKeyword() {
@@ -126,7 +129,6 @@ public class AddFilterDialog extends Dialog implements AdapterView.OnItemClickLi
     private String getKeyword() {
         return keywordText.getText().toString();
     }
-
 
     private Category getCategory() {
         if (categoryAutoComplete.getTag() != null) {

@@ -33,17 +33,28 @@ public class FilterFormatter {
         builder.setSpan(new ForegroundColorSpan(Color.BLACK), start, end,
                 Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
+        if (filter.hasKeyword() && filter.hasPrice()) {
+            start = filterString.indexOf("price");
+            end = filterString.length();
+            builder.setSpan(new ForegroundColorSpan(Color.BLACK), start, end,
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        }
+
         return builder;
     }
 
     public static String formatFilter(Filter filter) {
-        if (filter.hasCategory() && !filter.hasKeyword()) {
-            return formatCategory(filter.category) + formatPrice(filter);
-        } else if (filter.hasCategory()) {
-            return filter.keyword + " " + formatCategory(filter.category);
-        } else {
-            return filter.keyword;
+        String filterString = "";
+        if (filter.hasKeyword()) {
+            filterString = filter.keyword + " ";
         }
+        if (filter.hasCategory()) {
+            filterString += formatCategory(filter.category) + " ";
+        }
+        if (filter.hasPrice()) {
+            filterString += formatPrice(filter);
+        }
+        return filterString;
     }
 
     public static String formatCategory(Category category) {
@@ -51,6 +62,6 @@ public class FilterFormatter {
     }
 
     public static String formatPrice(Filter filter) {
-        return " price from " + filter.priceMin + "zł to " + filter.priceMax + "zł";
+        return "price from " + filter.priceMin + "zł to " + filter.priceMax + "zł";
     }
 }

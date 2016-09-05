@@ -30,6 +30,9 @@ public class Filter {
         this.keyword = keyword;
     }
 
+    public Filter() {
+    }
+
     public boolean hasKeyword() {
         return !TextUtils.isEmpty(keyword);
     }

@@ -24,7 +24,7 @@ public class FilterFormatterTest {
 
         String text = FilterFormatter.formatFilter(filter);
 
-        assertEquals(text, "Needle");
+        assertEquals(text, "Needle ");
     }
 
     @Test
@@ -33,7 +33,7 @@ public class FilterFormatterTest {
 
         String text = FilterFormatter.formatFilter(filter);
 
-        assertEquals(text, "Needle [Rowery]");
+        assertEquals(text, "Needle [Rowery] ");
     }
 
     @Test
@@ -43,5 +43,18 @@ public class FilterFormatterTest {
         String text = FilterFormatter.formatFilter(filter);
 
         assertEquals(text, "[Rowery] price from 50zł to 250zł");
+    }
+
+    @Test
+    public void with_category_keyword_price() {
+        Filter filter = new Filter();
+        filter.keyword = "29er";
+        filter.category = new Category(16544, "Rowery");
+        filter.priceMin = 50;
+        filter.priceMax = 250;
+
+        String text = FilterFormatter.formatFilter(filter);
+
+        assertEquals(text, "29er [Rowery] price from 50zł to 250zł");
     }
 }
