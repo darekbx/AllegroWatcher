@@ -7,6 +7,8 @@
     <string name="dialog_category">Category</string>
     <string name="dialog_price_min">Minimum price</string>
     <string name="dialog_price_max">Maximum price</string>
+    <string name="dialog_condtion_used">Used</string>
+    <string name="dialog_condtion_new">New</string>
     <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="title_activity_summary">SummaryActivity</string>

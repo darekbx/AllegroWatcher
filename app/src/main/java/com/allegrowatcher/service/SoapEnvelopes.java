@@ -1,5 +1,7 @@
 package com.allegrowatcher.service;
 
+import android.util.Log;
+
 import com.allegrowatcher.model.Filter;
 
 import org.ksoap2.serialization.PropertyInfo;
@@ -31,6 +33,10 @@ public class SoapEnvelopes {
             propertyObject.addProperty(SoapFilters.createFilterRangeOption("price",
                     "" + filter.priceMin, "" + filter.priceMax));
         }
+        if (filter.hasCondition()) {
+            propertyObject.addProperty(SoapFilters.createFilterOption("condition", filter.getConditionString()));
+        }
+        Log.v("-------", propertyObject.toString());
         return createItemsOutputObject(propertyObject);
     }
 

@@ -41,6 +41,26 @@
         android:hint="@string/dialog_price_max"
         android:inputType="numberSigned"
         />
+    <RadioGroup
+        android:id="@+id/dialog_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/condition_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_condtion_new"
+            />
+        <RadioButton
+            android:id="@+id/condition_used"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/dialog_condtion_used"
+            />
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="match_parent"

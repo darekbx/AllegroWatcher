@@ -6,7 +6,7 @@ import de.greenrobot.daogenerator.Schema;
 
 public class AllegroDaoGenerator {
     public static void main(String args[]) throws Exception {
-        Schema schema = new Schema(3, "com.allegrowatcher");
+        Schema schema = new Schema(4, "com.allegrowatcher");
 
         Entity entry = schema.addEntity("AllegroId");
         entry.addIdProperty();
@@ -19,6 +19,7 @@ public class AllegroDaoGenerator {
         filter.addStringProperty("category_name");
         filter.addIntProperty("price_min");
         filter.addIntProperty("price_max");
+        filter.addIntProperty("condition");
 
         Entity category = schema.addEntity("Category");
         category.addIdProperty();

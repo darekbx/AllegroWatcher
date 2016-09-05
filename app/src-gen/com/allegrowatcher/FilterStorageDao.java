@@ -29,6 +29,7 @@ public class FilterStorageDao extends AbstractDao<FilterStorage, Long> {
         public final static Property Category_name = new Property(3, String.class, "category_name", false, "CATEGORY_NAME");
         public final static Property Price_min = new Property(4, Integer.class, "price_min", false, "PRICE_MIN");
         public final static Property Price_max = new Property(5, Integer.class, "price_max", false, "PRICE_MAX");
+        public final static Property Condition = new Property(6, Integer.class, "condition", false, "CONDITION");
     };
 
 
@@ -49,7 +50,8 @@ public class FilterStorageDao extends AbstractDao<FilterStorage, Long> {
                 "'CATEGORY_ID' INTEGER," + // 2: category_id
                 "'CATEGORY_NAME' TEXT," + // 3: category_name
                 "'PRICE_MIN' INTEGER," + // 4: price_min
-                "'PRICE_MAX' INTEGER);"); // 5: price_max
+                "'PRICE_MAX' INTEGER," + // 5: price_max
+                "'CONDITION' INTEGER);"); // 6: condition
     }
 
     /** Drops the underlying database table. */
@@ -92,6 +94,11 @@ public class FilterStorageDao extends AbstractDao<FilterStorage, Long> {
         if (price_max != null) {
             stmt.bindLong(6, price_max);
         }
+ 
+        Integer condition = entity.getCondition();
+        if (condition != null) {
+            stmt.bindLong(7, condition);
+        }
     }
 
     /** @inheritdoc */
@@ -109,7 +116,8 @@ public class FilterStorageDao extends AbstractDao<FilterStorage, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // category_id
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // category_name
             cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // price_min
-            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5) // price_max
+            cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5), // price_max
+            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6) // condition
         );
         return entity;
     }
@@ -123,6 +131,7 @@ public class FilterStorageDao extends AbstractDao<FilterStorage, Long> {
         entity.setCategory_name(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPrice_min(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
         entity.setPrice_max(cursor.isNull(offset + 5) ? null : cursor.getInt(offset + 5));
+        entity.setCondition(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
      }
     
     /** @inheritdoc */

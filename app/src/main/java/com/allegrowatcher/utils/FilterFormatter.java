@@ -18,7 +18,7 @@ public class FilterFormatter {
         String filterString = formatFilter(filter);
         SpannableStringBuilder builder = new SpannableStringBuilder(filterString);
         int start = 0;
-        int end = 0;
+        int end;
 
         if (filter.hasCategory() && !filter.hasKeyword()) {
             start = filterString.indexOf(']') + 1;
@@ -52,7 +52,10 @@ public class FilterFormatter {
             filterString += formatCategory(filter.category) + " ";
         }
         if (filter.hasPrice()) {
-            filterString += formatPrice(filter);
+            filterString += formatPrice(filter) + " ";
+        }
+        if (filter.hasCondition()) {
+            filterString += "(" + filter.getConditionString() + ")";
         }
         return filterString;
     }

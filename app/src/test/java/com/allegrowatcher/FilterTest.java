@@ -72,7 +72,7 @@ public class FilterTest {
 
     @Test
     public void from_filter_storage() {
-        FilterStorage filterStorage = new FilterStorage(null, "keyword", 1, "category", 10, 20);
+        FilterStorage filterStorage = new FilterStorage(null, "keyword", 1, "category", 10, 20, null);
 
         Filter filter = Filter.fromFilterStorage(filterStorage);
 
@@ -97,5 +97,33 @@ public class FilterTest {
         Filter filter = new Filter(new Category(1, "test"), 10, 20);
 
         assertEquals(filter.toString(), "test");
+    }
+
+    @Test
+    public void get_condition_int() {
+        Filter filter = new Filter();
+
+        filter.condition = null;
+        assertEquals(filter.getCondtionInt(), 0);
+
+        filter.condition = 1;
+        assertEquals(filter.getCondtionInt(), 1);
+
+        filter.condition = 2;
+        assertEquals(filter.getCondtionInt(), 2);
+    }
+
+    @Test
+    public void get_condition_string() {
+        Filter filter = new Filter();
+
+        filter.condition = null;
+        assertEquals(filter.getConditionString(), null);
+
+        filter.condition = 1;
+        assertEquals(filter.getConditionString(), "new");
+
+        filter.condition = 2;
+        assertEquals(filter.getConditionString(), "used");
     }
 }

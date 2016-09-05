@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.allegrowatcher.R;
@@ -47,6 +48,9 @@ public class AddFilterDialog extends Dialog implements AdapterView.OnItemClickLi
 
     @BindView(R.id.dialog_price_max)
     TextView priceMaxText;
+
+    @BindView(R.id.dialog_condition)
+    RadioGroup conditionGroup;
 
     public AddFilterDialog(Context context, Listener listener) {
         super(context);
@@ -115,6 +119,7 @@ public class AddFilterDialog extends Dialog implements AdapterView.OnItemClickLi
         }
         filter.priceMin = getPriceMin();
         filter.priceMax = getPriceMax();
+        filter.condition = getCondition();
         return filter;
     }
 
@@ -128,6 +133,15 @@ public class AddFilterDialog extends Dialog implements AdapterView.OnItemClickLi
 
     private String getKeyword() {
         return keywordText.getText().toString();
+    }
+
+    private int getCondition() {
+        if (conditionGroup.getCheckedRadioButtonId() == R.id.condition_new) {
+            return 1;
+        } else if (conditionGroup.getCheckedRadioButtonId() == R.id.condition_used) {
+            return 2;
+        }
+        return 0;
     }
 
     private Category getCategory() {

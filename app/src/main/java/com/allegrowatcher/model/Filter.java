@@ -13,6 +13,7 @@ public class Filter {
     public Category category;
     public Integer priceMin;
     public Integer priceMax;
+    public Integer condition;
     public Long storageId;
 
     public Filter(Category category, int priceMin, int priceMax) {
@@ -37,6 +38,10 @@ public class Filter {
         return !TextUtils.isEmpty(keyword);
     }
 
+    public boolean hasCondition() {
+        return condition != null && condition != 0;
+    }
+
     public boolean hasCategory() {
         return category != null;
     }
@@ -52,7 +57,27 @@ public class Filter {
                 category != null ? category.id : null,
                 category != null ? category.name : null,
                 priceMin,
-                priceMax);
+                priceMax,
+                getCondtionInt());
+    }
+
+    public int getCondtionInt() {
+        if (!hasCondition()) {
+            return 0;
+        }
+        return condition;
+    }
+
+    public String getConditionString() {
+        if (!hasCondition()) {
+            return null;
+        }
+        if (condition == 1) {
+            return "new";
+        } else if (condition == 2) {
+            return "used";
+        }
+        return null;
     }
 
     public static Filter fromFilterStorage(FilterStorage filterStorage) {
@@ -63,6 +88,7 @@ public class Filter {
         if (filterStorage.getCategory_id() != null) {
             filter.category = new Category(filterStorage.getCategory_id(), filterStorage.getCategory_name());
         }
+        filter.condition = filterStorage.getCondition();
         return filter;
     }
 

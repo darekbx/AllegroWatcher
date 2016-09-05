@@ -12,6 +12,7 @@ public class FilterStorage {
     private String category_name;
     private Integer price_min;
     private Integer price_max;
+    private Integer condition;
 
     public FilterStorage() {
     }
@@ -20,13 +21,14 @@ public class FilterStorage {
         this.id = id;
     }
 
-    public FilterStorage(Long id, String keyword, Integer category_id, String category_name, Integer price_min, Integer price_max) {
+    public FilterStorage(Long id, String keyword, Integer category_id, String category_name, Integer price_min, Integer price_max, Integer condition) {
         this.id = id;
         this.keyword = keyword;
         this.category_id = category_id;
         this.category_name = category_name;
         this.price_min = price_min;
         this.price_max = price_max;
+        this.condition = condition;
     }
 
     public Long getId() {
@@ -75,6 +77,14 @@ public class FilterStorage {
 
     public void setPrice_max(Integer price_max) {
         this.price_max = price_max;
+    }
+
+    public Integer getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Integer condition) {
+        this.condition = condition;
     }
 
 }
