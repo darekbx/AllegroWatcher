@@ -11,8 +11,13 @@ import java.util.List;
 public class Summary {
     public int itemsCount;
     public int newItemsCount;
+    public List<Item> allItems;
     public List<Item> newIitems;
 
     public Summary() {
+    }
+
+    public boolean hasNewItems() {
+        return newIitems.size() > 0;
     }
 }

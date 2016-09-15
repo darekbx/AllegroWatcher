@@ -60,6 +60,7 @@ public class AllegroControllerTest {
         verify(summaryListener, times(1)).call(argument.capture());
 
         assertEquals(argument.getValue().itemsCount, 6);
+        assertEquals(argument.getValue().allItems.size(), 6);
         assertEquals(argument.getValue().newItemsCount, 2);
         assertEquals(argument.getValue().newIitems.get(0).id, 1005);
         assertEquals(argument.getValue().newIitems.get(1).id, 1006);

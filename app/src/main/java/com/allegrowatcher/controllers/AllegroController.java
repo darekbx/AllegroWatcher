@@ -45,6 +45,7 @@ public class AllegroController {
 
                     Summary summary = new Summary();
                     summary.itemsCount = allItems.size();
+                    summary.allItems = allItems;
                     summary.newItemsCount = items.size();
                     summary.newIitems = items;
 

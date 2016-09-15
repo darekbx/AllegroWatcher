@@ -14,6 +14,8 @@ import com.allegrowatcher.model.Summary;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 /**
  * Created by daba on 2016-08-18.
  */
@@ -30,7 +32,7 @@ public class ItemsActivity extends Activity implements AdapterView.OnItemClickLi
         setContentView(R.layout.activity_items);
 
         Summary summary = Parcels.unwrap(getIntent().getParcelableExtra(ITEMS_KEY));
-        ItemAdapter adapter = new ItemAdapter(this, summary.newIitems);
+        ItemAdapter adapter = new ItemAdapter(this, getItems(summary));
 
         listView = (ListView)findViewById(R.id.list_view);
         listView.setAdapter(adapter);
@@ -54,5 +56,13 @@ public class ItemsActivity extends Activity implements AdapterView.OnItemClickLi
     private void openAllegroItem(long itemId) {
         String path = getString(R.string.allegro_path, "" + itemId);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(path)));
+    }
+
+    private List<Item> getItems(Summary summary) {
+        if (summary.hasNewItems()) {
+            return summary.newIitems;
+        } else {
+            return summary.allItems;
+        }
     }
 }
